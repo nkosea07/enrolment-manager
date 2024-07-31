@@ -20,13 +20,13 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final TeacherService teacherService;
 
-    public Student registerStudent(String email, PersonDto personDto) {
+    public Student registerStudent(String teacherEmail, PersonDto personDto) {
 
         //first check if student exists before registration
         Optional<Student> student = getStudentByEmail(personDto.getEmail());
 
         //fetch teacher to be assigned to student
-        Teacher teacher = teacherService.getTeacherByEmail(email);
+        Teacher teacher = teacherService.getTeacherByEmail(teacherEmail);
 
         //save or else return existing student object
         return student.orElseGet(() -> studentRepository.save(Student.builder()

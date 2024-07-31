@@ -30,8 +30,8 @@ public class StudentController {
     }
 
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestParam String email, @RequestBody PersonDto personDto) {
-        return ResponseEntity.ok(studentService.registerStudent(email,personDto));
+    public ResponseEntity<Student> createStudent(@RequestParam String teacherEmail, @RequestBody PersonDto personDto) {
+        return ResponseEntity.ok(studentService.registerStudent(teacherEmail,personDto));
     }
 
     @PutMapping("/{id}")
