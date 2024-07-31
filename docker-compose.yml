@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres:
+    platform: linux/amd64
+    image: postgres:16.3
+    ports:
+      - "5433"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: enrolment_manager
+  api:
+    build:
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://postgres:5433/enrolment_manager
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+
+
