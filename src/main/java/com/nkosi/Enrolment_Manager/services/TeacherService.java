@@ -27,6 +27,7 @@ public class TeacherService {
     }
 
     public Teacher getTeacherByEmail(String email) {
+        //find teacher by email or else return exception if not found
         return teacherRepository.findByEmail(email).orElseThrow(()-> new DataNotFoundException("Failed to find teacher with the given email"
                 .concat(" ").concat(email )));
     }
@@ -36,6 +37,7 @@ public class TeacherService {
     }
 
     public Teacher updateTeacher(Long id, PersonDto teacherDetails) {
+        //fetch existing teacher by id
         Optional<Teacher> teacherOptional = getTeacherById(id);
         if (teacherOptional.isPresent()) {
             Teacher teacher = teacherOptional.get();
@@ -49,8 +51,10 @@ public class TeacherService {
     }
     public Teacher registerTeacher(PersonDto personDto) {
 
+        //first check if teacher with given email exists
         Optional<Teacher> teacher = teacherRepository.findByEmail(personDto.getEmail());
 
+        //return if exists or else save new teacher
         return teacher.orElseGet(() -> saveTeacher(Teacher.builder()
                 .firstName(personDto.getFirstName())
                 .lastName(personDto.getLastName())

@@ -22,10 +22,13 @@ public class StudentService {
 
     public Student registerStudent(String email, PersonDto personDto) {
 
+        //first check if student exists before registration
         Optional<Student> student = getStudentByEmail(personDto.getEmail());
 
+        //fetch teacher to be assigned to student
         Teacher teacher = teacherService.getTeacherByEmail(email);
 
+        //save or else return existing student object
         return student.orElseGet(() -> studentRepository.save(Student.builder()
                 .firstName(personDto.getFirstName())
                 .lastName(personDto.getLastName())
@@ -52,8 +55,10 @@ public class StudentService {
 
 
     public Student updateStudent(Long id, PersonDto personDto) {
+        //check if student exists
         Optional<Student> optionalStudent = getStudentById(id);
         if (optionalStudent.isPresent()) {
+            //update details orelse return existing details
             Student student = optionalStudent.get();
             student.setFirstName(Objects.isNull(personDto.getFirstName()) ? student.getFirstName() : personDto.getFirstName());
             student.setLastName(Objects.isNull(personDto.getLastName()) ? student.getLastName() : personDto.getLastName());
